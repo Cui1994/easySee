@@ -1,0 +1,41 @@
+# -*- coding:utf-8 -*-
+
+import os
+basedir = os.path.abspath(os.path.dirname(__file__))  # 获得文件目录的绝对路径
+
+
+class Config:
+	SECRET_KEY = os.environ.get('SECRET_KEY') or 'you can know this?'
+	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+	EASYSEE_MAIL_SUBJECT_PREFIX = '[EasySee]'
+	EASYSEE_MAIL_SENDER = 'Python Learner <cuijt1994@163.com>'
+	EASYSEE_ADMIN = os.environ.get('EASYSEE_ADMIN') or '<269584357@qq.com>'
+
+	@staticmethod
+	def init_app(app):
+		pass
+
+class DevelopmentConfig(Config):
+	DEBUG = True
+	MAIL_SERVER = 'smtp.163.com'
+	MAIL_PORT = 25
+	MAIL_USE_TLS = True
+	MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+	MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or 'mysql://root:632100@127.0.0.1:3306/easysee_dev'
+
+class TestingConfig(Config):
+	TESTING = True
+	SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or 'mysql://root:632100@127.0.0.1:3306/easysee_test'
+
+class ProductionConfig(Config):
+	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'mysql://root:632100@127.0.0.1:3306/easysee'
+
+
+config = {
+	'development': DevelopmentConfig,
+	'testing': TestingConfig,
+	'production': ProductionConfig,
+
+	'default': DevelopmentConfig
+}
