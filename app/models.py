@@ -5,6 +5,7 @@ from flask_login import UserMixin
 from datetime import datetime
 from . import db, login_manager
 
+
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +13,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
 
-    anchors = db.relationship('User_Follow_Anchor', foreign_keys=[User_Follow_Anchor.user_id], 
+    anchors = db.relationship('User_Follow_Anchor', 
         backref=db.backref('follower', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
 
     @property
@@ -67,6 +68,15 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    def follow(self, anchor):
+        if not self.is_following(anchor):
+            f = User_Follow_Anchor(follower=self, anchor=anchor)
+            db.session.add(f)
+            db.session.commit()
+
+    def is_following(self, anchor):
+        return self.anchors.filter_by(anchor_id=anchor.id).first() is not None
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -74,6 +84,7 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class TV(db.Model):
     __tablename__ = 'tvs'
@@ -109,7 +120,7 @@ class Anchor(db.Model):
     is_live = db.Column(db.Boolean, default=False, index=True)
 
     tv_id = db.Column(db.Integer, db.ForeignKey('tvs.id'))
-    followers = db.relationship('User_Follow_Anchor', foreign_keys=[User_Follow_Anchor.anchor_id], 
+    followers = db.relationship('User_Follow_Anchor', 
         backref=db.backref('anchor', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
 
 class User_Follow_Anchor(db.Model):
