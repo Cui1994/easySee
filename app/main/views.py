@@ -10,13 +10,19 @@ from .. import db
 
 @main.route('/')
 def index():
-	anchors = current_user.anchors.all()
+	if current_user.is_authenticated:
+		if Anchor.query.all() == []:
+			anchors = None
+		else:
+			anchors = current_user.anchors.all()
+	else:
+		anchors = None
 	return render_template('index.html', anchors=anchors)
 
 @main.route('/add-anchor', methods=['GET', 'POST'])
 @login_required
 def add_anchor():
-	form = AddAnchorForm(current_user)
+	form = AddAnchorForm()
 	if form.validate_on_submit():
 		name = NameGetter(TV.query.get(form.tv.data).name, form.room.data).name
 		if not name:

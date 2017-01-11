@@ -5,6 +5,10 @@ from flask_login import UserMixin
 from datetime import datetime
 from . import db, login_manager
 
+user_anchor = db.Table('user_anchor',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+    db.Column('anchor_id', db.Integer, db.ForeignKey('anchors.id'), primary_key=True)
+    )
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -13,8 +17,8 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
 
-    anchors = db.relationship('User_Follow_Anchor', 
-        backref=db.backref('follower', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
+    anchors = db.relationship('Anchor', secondary=user_anchor, 
+        backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
 
     @property
     def password(self):
@@ -70,12 +74,12 @@ class User(UserMixin, db.Model):
 
     def follow(self, anchor):
         if not self.is_following(anchor):
-            f = User_Follow_Anchor(follower=self, anchor=anchor)
-            db.session.add(f)
+            self.anchors.append(anchor)
+            db.session.add(self)
             db.session.commit()
 
     def is_following(self, anchor):
-        return self.anchors.filter_by(anchor_id=anchor.id).first() is not None
+        return self.anchors.filter_by(id=anchor.id).first() is not None
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -120,12 +124,6 @@ class Anchor(db.Model):
     is_live = db.Column(db.Boolean, default=False, index=True)
 
     tv_id = db.Column(db.Integer, db.ForeignKey('tvs.id'))
-    followers = db.relationship('User_Follow_Anchor', 
-        backref=db.backref('anchor', lazy='joined'), lazy='dynamic', cascade='all, delete-orphan')
 
-class User_Follow_Anchor(db.Model):
-    __tablename__ = 'user_follow_anchor'
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
-    anchor_id = db.Column(db.Integer, db.ForeignKey('anchors.id'), primary_key=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
 

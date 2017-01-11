@@ -6,10 +6,12 @@
 <div class="page-header">
     <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
     <a href="{{ url_for('main.add_anchor') }}" class="btn btn-primary btn-lg active" role="button">link</a>
-    {% for anchor in anchors %}
-    {{ anchor.name }}
-    {{ anchor.tv.name }}
-    {{ anchor.is_live }}
-    {% endfor %}
+    {% if anchors %}
+	    {% for anchor in anchors %}
+	    {{ anchor.name }}
+	    {{ anchor.tv.name }}
+	    {{ anchor.is_live }}
+	    {% endfor %}
+	{% endif %}
 </div>
 {% endblock %}
