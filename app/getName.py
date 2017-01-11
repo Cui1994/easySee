@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import requests, json, re
+from .logger import namelogger
 
 class NameGetter:
 
@@ -30,6 +31,7 @@ class NameGetter:
 			pattern = re.compile(r'class="zb-name">(.*?)</a>', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:
+			namelogger.exception(u'无法连接' + url)
 			return None
 
 	def xiongmao(self):
@@ -39,6 +41,7 @@ class NameGetter:
 			pattern = re.compile(r'<title>(.*?)</title>', re.S)
 			self.name = re.findall(pattern, r)[0][:-16]
 		except:
+			namelogger.exception(u'无法连接' + url)
 			return None
 
 	def longzhu(self):
@@ -48,6 +51,7 @@ class NameGetter:
 			pattern = re.compile(r'class="header-info-name">(.*?)</span>', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:
+			namelogger.exception(u'无法连接' + url)
 			return None
 
 	def quanmin(self):
@@ -56,13 +60,18 @@ class NameGetter:
 			r = requests.get(url).json()
 			self.name = r.get("nick")
 		except:
+			namelogger.exception(u'无法连接' + url)
 			return None
 
 	def huya(self):
-		url = 'http://www.huya.com/' + self.room
-		r = requests.get(url).text
-		pattern = re.compile(r' <span class="host-name" title="(.*?)">', re.S)
-		self.name = re.findall(pattern, r)[0]
+		try:
+			url = 'http://www.huya.com/' + self.room
+			r = requests.get(url).text
+			pattern = re.compile(r' <span class="host-name" title="(.*?)">', re.S)
+			self.name = re.findall(pattern, r)[0]
+		except:
+			namelogger.exception(u'无法连接' + url)
+			return None
 
 	def zhanqi(self):
 		try:
@@ -71,4 +80,5 @@ class NameGetter:
 			pattern = re.compile(r'<p class="name dv">(.*?)</p>', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:
+			namelogger.exception(u'无法连接' + url)
 			return None

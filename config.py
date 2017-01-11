@@ -9,7 +9,7 @@ class Config:
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'you can know this?'
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	EASYSEE_MAIL_SUBJECT_PREFIX = '[EasySee]'
-	EASYSEE_MAIL_SENDER = 'Python Learner <cuijt1994@163.com>'
+	EASYSEE_MAIL_SENDER = 'easySee <cuijt1994@163.com>'
 	EASYSEE_ADMIN = os.environ.get('EASYSEE_ADMIN') or '<269584357@qq.com>'
 
 	#celery config
@@ -17,11 +17,11 @@ class Config:
 	CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 	CELERY_IMPORTS = ['app.task']
 	CELERYBEAT_SCHEDULE = {
-        'every-minute': {
+        'every-5-minute': {
             'task': 'circle_task',
             #'schedule': crontab(minute='*/1'),
             # 'args': (1,2),
-            'schedule': timedelta(seconds=60)
+            'schedule': timedelta(seconds=20)
         	},
     	}
 

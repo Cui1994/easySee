@@ -1,0 +1,5 @@
+[2017-01-12 02:14:01,355][app.getName][ERROR] 无法连接https://www.zhanqi.tv/34234324324
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 81, in zhanqi
+    self.name = re.findall(pattern, r)[0]
+IndexError: list index out of range
