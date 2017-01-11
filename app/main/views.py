@@ -17,10 +17,10 @@ def index():
 		anchors = None
 	else:
 		anchors = current_user.anchors.all()
-		for anchor in anchors:
-			anchor.is_live = LiveChecker(anchor).is_live
-			db.session.add(anchor)
-			db.session.commit()
+		#for anchor in anchors:
+		#	anchor.is_live = LiveChecker(anchor).is_live
+		#	db.session.add(anchor)
+		#	db.session.commit()
 	return render_template('index.html', anchors=anchors)
 
 @main.route('/add-anchor', methods=['GET', 'POST'])

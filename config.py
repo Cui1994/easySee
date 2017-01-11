@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 import os
+from datetime import timedelta
 basedir = os.path.abspath(os.path.dirname(__file__))  # 获得文件目录的绝对路径
 
 
@@ -10,6 +11,19 @@ class Config:
 	EASYSEE_MAIL_SUBJECT_PREFIX = '[EasySee]'
 	EASYSEE_MAIL_SENDER = 'Python Learner <cuijt1994@163.com>'
 	EASYSEE_ADMIN = os.environ.get('EASYSEE_ADMIN') or '<269584357@qq.com>'
+
+	#celery config
+	CELERY_BROKER_URL = 'redis://localhost:6379/0'
+	CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+	CELERY_IMPORTS = ['app.task']
+	CELERYBEAT_SCHEDULE = {
+        'every-minute': {
+            'task': 'circle_task',
+            #'schedule': crontab(minute='*/1'),
+            # 'args': (1,2),
+            'schedule': timedelta(seconds=60)
+        	},
+    	}
 
 	@staticmethod
 	def init_app(app):

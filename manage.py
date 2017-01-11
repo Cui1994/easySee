@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from app import create_app, db
+from app import create_app, db, celery
 from app.models import User, TV, Anchor
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
