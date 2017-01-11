@@ -8,17 +8,17 @@ class NameGetter:
 		self.tv = tv
 		self.room = room
 		self.name = None
-		if self.tv == 'douyu':
+		if self.tv == u'斗鱼':
 			self.douyu()
-		elif self.tv == 'xiongmao':
+		elif self.tv == u'熊猫':
 			self.xiongmao()
-		elif self.tv == 'longzhu':
+		elif self.tv == u'龙珠':
 			self.longzhu()
-		elif self.tv == 'quanmin':
+		elif self.tv == u'全民':
 			self.quanmin()
-		elif self.tv == 'huya':
+		elif self.tv == u'虎牙':
 			self.huya()
-		elif self.tv == 'zhanqi':
+		elif self.tv == u'战旗':
 			self.zhanqi()
 		else:
 			return None

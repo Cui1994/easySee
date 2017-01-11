@@ -15,17 +15,17 @@ anchor.room = str(input('enter room:'))
 class NameGetter:
 
 	def __init__(self, anchor):
-		if anchor.tv == 'douyu':
+		if anchor.tv == u'斗鱼':
 			self.douyu(anchor)
-		elif anchor.tv == 'xiongmao':
+		elif anchor.tv == u'熊猫':
 			self.xiongmao(anchor)
-		elif anchor.tv == 'longzhu':
+		elif anchor.tv == u'龙珠':
 			self.longzhu(anchor)
-		elif anchor.tv == 'quanmin':
+		elif anchor.tv == u'全民':
 			self.quanmin(anchor)
-		elif anchor.tv == 'huya':
+		elif anchor.tv == u'虎牙':
 			self.huya(anchor)
-		elif anchor.tv == 'zhanqi':
+		elif anchor.tv == u'战旗':
 			self.zhanqi(anchor)
 		else:
 			return None

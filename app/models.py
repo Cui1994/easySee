@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
@@ -81,6 +83,11 @@ class User(UserMixin, db.Model):
     def is_following(self, anchor):
         return self.anchors.filter_by(id=anchor.id).first() is not None
 
+    def unfollow(self, anchor):
+        self.anchors.remove(anchor)
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -101,12 +108,12 @@ class TV(db.Model):
     @staticmethod
     def insert_tvs():
         tvs = {
-            'douyu': 'https://www.douyu.com/',
-            'xiongmao': 'http://www.panda.tv/',
-            'longzhu': 'http://star.longzhu.com/',
-            'quanmin': 'http://www.quanmin.tv/',
-            'huya': 'http://www.huya.com/',
-            'zhanqi': 'https://www.zhanqi.tv/'
+            u'斗鱼': 'https://www.douyu.com/',
+            u'熊猫': 'http://www.panda.tv/',
+            u'龙珠': 'http://star.longzhu.com/',
+            u'全民': 'http://www.quanmin.tv/',
+            u'虎牙': 'http://www.huya.com/',
+            u'战旗': 'https://www.zhanqi.tv/'
         }
         for t in tvs:
             tv = TV.query.filter_by(name=t).first()

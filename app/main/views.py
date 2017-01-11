@@ -5,18 +5,22 @@ from flask_login import login_required, current_user
 from . import main
 from .forms import AddAnchorForm
 from ..getName import NameGetter
+from ..LiveChecker import LiveChecker
 from ..models import User, TV, Anchor
 from .. import db
 
 @main.route('/')
 def index():
-	if current_user.is_authenticated:
-		if Anchor.query.all() == []:
-			anchors = None
-		else:
-			anchors = current_user.anchors.all()
-	else:
+	if  not current_user.is_authenticated:
+		return render_template('welcome.html')
+	if Anchor.query.all() == []:
 		anchors = None
+	else:
+		anchors = current_user.anchors.all()
+		for anchor in anchors:
+			anchor.is_live = LiveChecker(anchor).is_live
+			db.session.add(anchor)
+			db.session.commit()
 	return render_template('index.html', anchors=anchors)
 
 @main.route('/add-anchor', methods=['GET', 'POST'])
@@ -45,3 +49,10 @@ def add_anchor():
 		return redirect(url_for('.index'))
 	return render_template('add_anchor.html', form=form)
 
+@main.route('/unfollow/<name>')
+@login_required
+def unfollow(name):
+	anchor = Anchor.query.filter_by(name=name).first()
+	current_user.unfollow(anchor)
+	flash(u'取消关注成功')
+	return redirect(url_for('.index'))
