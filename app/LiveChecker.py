@@ -57,7 +57,7 @@ class LiveChecker:
 		pattern2 = re.compile(r'"isNotLive" : "(.)"', re.S)
 		is_replay = re.findall(pattern1, r)
 		is_not_live = re.findall(pattern2, r)
-		if not is_replay == ['1'] or is_not_live == ['1']:
+		if not (is_replay == ['1'] or is_not_live == ['1']):
 			self.is_live = True
 
 	def zhanqi(self, anchor):

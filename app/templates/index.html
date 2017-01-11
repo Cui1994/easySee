@@ -20,7 +20,7 @@
       			<td>{{ anchor.tv.name }}</td>
       			<td>{{ anchor.name }}</td>
       			<td>{% if anchor.is_live %}正在直播{% else %}休息中{% endif %}</td>
-      			<td><a href="{{ anchor.tv.base_url }}{{ anchor.room }}" target="_black" class="btn btn-info btn-xs active" role="button">到他的直播间>>></a></td>
+      			<td><a href="{{ anchor.tv.base_url }}{{ anchor.room }}" target="_black" class="btn btn-info btn-xs active" role="button">到ta的直播间>>></a></td>
 			<td><a href="{{ url_for('main.unfollow', name=anchor.name) }}" class="btn btn-danger btn-xs active" role="button">取消关注</a><td>
     		</tr>
     		{% endfor %}
