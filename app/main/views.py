@@ -63,9 +63,12 @@ def unfollow(name):
 @main.route('/follow/<name>')
 @login_required
 def follow(name):
-	anchor = Anchor.query.filter_by(name=name).first()
-	anchor.add_user(current_user)
-	flash(u'关注成功')
+	if current_user.is_limit():
+		anchor = Anchor.query.filter_by(name=name).first()
+		anchor.add_user(current_user)
+		flash(u'关注成功')
+	else:
+		flash(u'您的关注的主播数量已达上限')
 	return redirect(url_for('.hot'))
 
 @main.route('/set-remind')

@@ -107,6 +107,9 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def is_limit(self):
+        return self.anchors.count() <= current_app.config['EASYSEE_ANCHOR_LIMIT']
+
     def __repr__(self):
         return '<User %r>' % self.username
 

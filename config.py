@@ -11,6 +11,8 @@ class Config:
 	EASYSEE_MAIL_SUBJECT_PREFIX = '[EasySee]'
 	EASYSEE_MAIL_SENDER = 'easySee <cuijt1994@163.com>'
 	EASYSEE_ADMIN = os.environ.get('EASYSEE_ADMIN') or '<269584357@qq.com>'
+	EASYSEE_ANCHOR_LIMIT = 11
+	EASYSEE_PER_PAGE = 15
 
 	#celery config
 	CELERY_BROKER_URL = 'redis://localhost:6379/0'

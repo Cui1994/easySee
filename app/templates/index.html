@@ -33,7 +33,11 @@
         </div>
         <div class="row">
             <div class="col-md-10">
+                {% if current_user.is_limit() %}
                 <a href="{{ url_for('main.add_anchor') }}" class="btn btn-primary btn-lg active btn-sm" role="button">添加主播</a>
+                {% else %}
+                <a href="{{ url_for('main.add_anchor') }}" class="btn btn-primary btn-lg disabled btn-sm" role="button">添加主播</a>
+                {% endif %}
                 <a href="{{ url_for('main.set_remind') }}" class="btn btn-default btn-lg active btn-sm" role="button">邮箱提醒{% if current_user.is_remind %}(已开启){% else %}(未开启){% endif %}</a>
             </div>
         </div>
