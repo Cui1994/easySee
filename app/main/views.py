@@ -1,13 +1,17 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, g
 from flask_login import login_required, current_user
 from . import main
-from .forms import AddAnchorForm
+from .forms import AddAnchorForm, SearchForm
 from ..getName import NameGetter
 from ..LiveChecker import LiveChecker
 from ..models import User, TV, Anchor
 from .. import db
+
+@main.before_app_request
+def before_request(): #定义全局变量
+    g.search_form = SearchForm()
 
 @main.route('/')
 def index():
@@ -88,3 +92,13 @@ def hot():
 	anchors = pagination.items
 	return render_template('hot.html', anchors=anchors, pagination=pagination)
 
+@main.route('/search', methods = ['POST'])
+def search():
+    if not g.search_form.validate_on_submit():
+        return redirect(url_for('.index'))
+    return redirect(url_for('.search_results', query = g.search_form.search.data))
+
+@main.route('/search-results/<query>')
+def search_results(query):
+    anchors = Anchor.query.filter(Anchor.name.like('%'+query+'%')).all()
+    return render_template('search_results.html', anchors=anchors)

@@ -14,3 +14,6 @@ class AddAnchorForm(Form):
 	def __init__(self, *args, **kwargs):
 		super(AddAnchorForm, self).__init__(*args, **kwargs)
 		self.tv.choices = [(tv.id, tv.name) for tv in TV.query.order_by(TV.name).all()]
+
+class SearchForm(Form):
+	search = StringField(u'', validators=[Required()])

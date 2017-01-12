@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}直播通 - {% endblock %}
+
+{% block page_content %}
+<div class="row">
+	<div class="col-md-10">
+		<h3>搜索结果：</h3>
+		{% if not anchors %}
+		<hr />
+		<h5>数据库中没有搜索到您要找的主播</h5>
+		<h5>可能还没有人添加该主播，快去主页添加一个吧。</h5>
+		{% else %}
+		<table class="table table-hover">
+			<tbody>	
+				{% for anchor in anchors %}
+					<tr class="text-center">
+					    <td>{{ anchor.tv.name }}</td>
+					    <td>{{ anchor.name }}</td>
+					    <td>{% if anchor.is_live %}正在直播{% else %}休息中{% endif %}</td>
+					    <td><a href="{{ anchor.tv.base_url }}{{ anchor.room }}" target="_black" class="btn btn-info btn-xs active" role="button">到ta的直播间>>></a></td>
+					    <td>{{ anchor.users_count }}人关注</td>
+					    {% if not anchor.is_followed_by(current_user) %}
+						<td><a href="{{ url_for('main.follow', name=anchor.name) }}" class="btn btn-default btn-xs active" role="button"><span class="glyphicon glyphicon-star"></span>关注</a><td>
+						{% else %}
+						<td><a href="{{ url_for('main.follow', name=anchor.name) }}" class="btn btn-default btn-xs disabled" role="button"><span class="glyphicon glyphicon-star"></span>已关注</a></td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
