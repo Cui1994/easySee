@@ -15,12 +15,12 @@ def circletask():
 			if anchor.users.all() == []:
 				db.session.delete(anchor)
 				db.session.commit()
-				break
-			is_live = LiveChecker(anchor).is_live
-			if is_live == True and is_live != anchor.is_live:
-				for user in anchor.users.all():
-					send_email(user.email, u'主播上线通知', 'email/remind', user=user, name=anchor.name)
-					logging.info('send a email')
-			anchor.is_live = is_live
-			db.session.add(anchor)
-			db.session.commit()
+			else:
+				is_live = LiveChecker(anchor).is_live
+				if is_live == True and is_live != anchor.is_live:
+					for user in anchor.users.all():
+						send_email(user.email, u'主播上线通知', 'email/remind', user=user, name=anchor.name)
+						logging.info('send a email')
+				anchor.is_live = is_live
+				db.session.add(anchor)
+				db.session.commit()

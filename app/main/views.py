@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, url_for, flash, redirect
+from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_required, current_user
 from . import main
 from .forms import AddAnchorForm
@@ -17,10 +17,6 @@ def index():
 		anchors = None
 	else:
 		anchors = current_user.anchors.all()
-		#for anchor in anchors:
-		#	anchor.is_live = LiveChecker(anchor).is_live
-		#	db.session.add(anchor)
-		#	db.session.commit()
 	return render_template('index.html', anchors=anchors)
 
 @main.route('/add-anchor', methods=['GET', 'POST'])
@@ -46,6 +42,7 @@ def add_anchor():
 				return redirect(url_for('.index'))
 		anchor = Anchor(name=name, room=form.room.data, 
 			tv=TV.query.get(form.tv.data))
+		anchor.is_live = LiveChecker(anchor).is_live
 		anchor.add_user(current_user)
 		flash(u'添加成功')
 		return redirect(url_for('.index'))
@@ -85,9 +82,9 @@ def change_remind():
 @main.route('/hot')
 @login_required
 def hot():
-	if Anchor.query.all() == []:
-		anchors = None
-	else:
-		anchors = Anchor.query.order_by(Anchor.users_count)[:10]
-	return render_template('hot.html', anchors=anchors)
+	page = request.args.get('page', 1, type=int)
+	pagination = Anchor.query.order_by(Anchor.users_count).paginate(
+		page, per_page=15, error_out=False)
+	anchors = pagination.items
+	return render_template('hot.html', anchors=anchors, pagination=pagination)
 

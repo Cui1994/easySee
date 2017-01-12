@@ -155,7 +155,7 @@ class Anchor(db.Model):
     def add_user(self, user):
         if not self.is_followed_by(user):
             self.users.append(user)
-            slef.users_count += 1
+            self.users_count += 1
             db.session.add(self)
             db.session.commit()
 
