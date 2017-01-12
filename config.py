@@ -21,7 +21,7 @@ class Config:
             'task': 'circle_task',
             #'schedule': crontab(minute='*/1'),
             # 'args': (1,2),
-            'schedule': timedelta(seconds=20)
+            'schedule': timedelta(seconds=300)
         	},
     	}
 

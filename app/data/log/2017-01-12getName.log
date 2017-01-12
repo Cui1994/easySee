@@ -3,3 +3,38 @@ Traceback (most recent call last):
   File "/home/jack/pythoncoding/easySee/app/getName.py", line 81, in zhanqi
     self.name = re.findall(pattern, r)[0]
 IndexError: list index out of range
+[2017-01-12 15:22:45,233][app.getName][ERROR] 无法连接http://www.quanmin.tv/json/rooms/234124324324/noinfo4.json
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 64, in quanmin
+    r = s.get(url, proxies=random.choice(PROXIES)).json()
+NameError: global name 's' is not defined
+[2017-01-12 15:22:54,446][app.getName][ERROR] 无法连接http://www.quanmin.tv/json/rooms/90888dopa/noinfo4.json
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 64, in quanmin
+    r = s.get(url, proxies=random.choice(PROXIES)).json()
+NameError: global name 's' is not defined
+[2017-01-12 15:23:07,883][app.getName][ERROR] 无法连接http://www.huya.com/90888dopa
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 73, in huya
+    r = s.get(url, proxies=random.choice(PROXIES)).text
+NameError: global name 's' is not defined
+[2017-01-12 15:23:21,820][app.getName][ERROR] 无法连接http://star.longzhu.com/dongzhu
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 54, in longzhu
+    r = s.get(url, proxies=random.choice(PROXIES)).text
+NameError: global name 's' is not defined
+[2017-01-12 15:23:31,613][app.getName][ERROR] 无法连接http://star.longzhu.com/dongzhu
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 54, in longzhu
+    r = s.get(url, proxies=random.choice(PROXIES)).text
+NameError: global name 's' is not defined
+[2017-01-12 15:25:31,985][app.getName][ERROR] 无法连接http://www.quanmin.tv/json/rooms/4324324234324/noinfo4.json
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 63, in quanmin
+    r = s.get(url, proxies=random.choice(PROXIES)).json()
+NameError: global name 's' is not defined
+[2017-01-12 15:27:22,477][app.getName][ERROR] 无法连接http://star.longzhu.com/dongzhu
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/getName.py", line 53, in longzhu
+    r = s.get(url, proxies=random.choice(PROXIES)).text
+NameError: global name 's' is not defined

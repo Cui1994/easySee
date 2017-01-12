@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}直播通 - 邮箱提醒{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>服务管理</h1>
+</div>
+<div class="col-md-6">
+	{% if user.is_remind %}
+	<h3><span class="glyphicon glyphicon-ok"></span> 邮箱提醒已开启</h3>
+	<br />
+	<h4>提醒邮箱默认为您的注册邮箱：<{{ user.email }}></h4>
+	<h4>您关注的主播开播时，将发送一封提醒邮件到您的邮箱</h4>
+	<a href="{{ url_for('main.change_remind') }}" class="btn btn-danger btn-lg active btn" role="button">关闭邮箱提醒</a>
+	{% else %}
+	<h3><span class="glyphicon glyphicon-remove"></span> 邮箱提醒已关闭</h3>
+	<br />
+	<h4>提醒邮箱将默认为您的注册邮箱：<{{ user.email }}></h4>
+	<h4>开启服务后，您关注的主播开播时，将发送一封提醒邮件到您的邮箱</h4>
+	<a href="{{ url_for('main.change_remind') }}" class="btn btn-info btn-lg active btn" role="button">开启邮箱提醒</a>
+	{% endif %}
+	<hr />
+	<div class="text-grey">
+	<div class="small">
+	<p> ***用户须知*** </p>
+	<p>1.使用前请先确认您的邮箱有效</p>
+	<p>2.推荐将我们的推送邮箱加入您的邮箱白名单以防止提醒邮箱被拦截</p>
+	<p>3.本服务后台刷新时间为5-10分钟</p>
+	</small>
+	</div>
+</div>
+{% endblock %}

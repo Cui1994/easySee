@@ -33,18 +33,20 @@ def add_anchor():
 			flash(u'查询不到该房间名对应的直播间，请输入正确的房间名')
 			return redirect(url_for('.add_anchor'))
 		if Anchor.query.filter_by(name=name).first():
-			if current_user.is_following(Anchor.query.filter_by(name=name).first()):
+			if Anchor.query.filter_by(name=name).first().is_followed_by(current_user):
 				flash(u'您已经添加过该主播，请不要重复添加')
 				return redirect(url_for('.add_anchor'))
 			else:
-				current_user.follow(Anchor.query.filter_by(name=name).first())
+				anchor = Anchor.query.filter_by(name=name).first()
+				anchor.add_user(current_user)
+				anchor.is_live = LiveChecker(anchor).is_live
+				db.session.add(anchor)
+				db.session.commit()
 				flash(u'添加成功')
 				return redirect(url_for('.index'))
 		anchor = Anchor(name=name, room=form.room.data, 
 			tv=TV.query.get(form.tv.data))
-		current_user.follow(anchor)
-		db.session.add(anchor)
-		db.session.commit()
+		anchor.add_user(current_user)
 		flash(u'添加成功')
 		return redirect(url_for('.index'))
 	return render_template('add_anchor.html', form=form)
@@ -53,6 +55,39 @@ def add_anchor():
 @login_required
 def unfollow(name):
 	anchor = Anchor.query.filter_by(name=name).first()
-	current_user.unfollow(anchor)
+	anchor.remove_user(current_user)
 	flash(u'取消关注成功')
 	return redirect(url_for('.index'))
+
+@main.route('/follow/<name>')
+@login_required
+def follow(name):
+	anchor = Anchor.query.filter_by(name=name).first()
+	anchor.add_user(current_user)
+	flash(u'关注成功')
+	return redirect(url_for('.hot'))
+
+@main.route('/set-remind')
+@login_required
+def set_remind():
+	return render_template('set_remind.html', user=current_user)
+
+@main.route('/change-remind')
+@login_required
+def change_remind():
+	current_user.change_remind()
+	if current_user.is_remind:
+		flash(u'邮箱提醒开启成功')
+	else:
+		flash(u'邮箱提醒已关闭')
+	return redirect(url_for('.index'))
+
+@main.route('/hot')
+@login_required
+def hot():
+	if Anchor.query.all() == []:
+		anchors = None
+	else:
+		anchors = Anchor.query.order_by(Anchor.users_count)[:10]
+	return render_template('hot.html', anchors=anchors)
+

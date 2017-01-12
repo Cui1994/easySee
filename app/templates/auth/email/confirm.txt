@@ -1,0 +1,13 @@
+亲爱的 {{ user.username }},
+
+欢迎使用直播通！
+
+为了验证您的注册邮箱，您需要点击下面的链接：
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+非常感谢您的支持！
+
+直播通
+
+注：此邮件回复无效

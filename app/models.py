@@ -18,6 +18,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
+    confirmed = db.Column(db.Boolean, default=False)
+    is_remind = db.Column(db.Boolean, default=False)
 
     anchors = db.relationship('Anchor', secondary=user_anchor, 
         backref=db.backref('users', lazy='dynamic'), lazy='dynamic')
@@ -40,6 +42,18 @@ class User(UserMixin, db.Model):
     def generate_reset_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'reset': self.id})
+
+    def confirm(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
 
     def reset_password(self, token, new_password):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -88,6 +102,11 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def change_remind(self):
+        self.is_remind = not self.is_remind
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -129,8 +148,31 @@ class Anchor(db.Model):
     name = db.Column(db.String(64))
     room = db.Column(db.String(64))
     is_live = db.Column(db.Boolean, default=False, index=True)
+    users_count = db.Column(db.Integer, default=0)
 
     tv_id = db.Column(db.Integer, db.ForeignKey('tvs.id'))
 
+    def add_user(self, user):
+        if not self.is_followed_by(user):
+            self.users.append(user)
+            slef.users_count += 1
+            db.session.add(self)
+            db.session.commit()
+
+    def is_followed_by(self, user):
+        return self.users.filter_by(id=user.id).first() is not None
+
+    def remove_user(self, user):
+        self.users_count -= 1
+        self.users.remove(user)
+        db.session.add(self)
+        db.session.commit()
+
+    @staticmethod
+    def insert_users_count():
+        for anchor in Anchor.query.all():
+            anchor.users_count = anchor.users.count()
+            db.session.add(anchor)
+            db.session.commit()
 
 

@@ -1,11 +1,7 @@
-Dear {{ user.username }},
-
-To confirm your new email address click on the following link:
-
+亲爱的用户 {{ user.username }},
+为了验证您的新邮箱，您需要点击链接 <a href="{{ url_for('auth.change_email', token=token, _external=True) }}">点击这里</a>.
+当然，您也可以将链接复制到自己的浏览器中：
 {{ url_for('auth.change_email', token=token, _external=True) }}
-
-Sincerely,
-
-The Flasky Team
-
-Note: replies to this email address are not monitored.
+非常感谢您的使用
+直播通
+<small>注：此邮件回复无效。</small>

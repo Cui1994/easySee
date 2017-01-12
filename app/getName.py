@@ -1,9 +1,13 @@
 # -*- coding:utf-8 -*-
 
-import requests, json, re
+import requests, json, re, random
 from .logger import namelogger
+from ipProtect import USER_AGENTS, PROXIES
 
 class NameGetter:
+
+	s = requests.session()
+	s.headers['User-Agent'] = random.choice(USER_AGENTS)
 
 	def __init__(self, tv, room):
 		self.tv = tv
@@ -27,7 +31,7 @@ class NameGetter:
 	def douyu(self):
 		try:
 			url = 'https://www.douyu.com/' + self.room
-			r = requests.get(url).text
+			r = self.s.get(url, proxies=random.choice(PROXIES)).text
 			pattern = re.compile(r'class="zb-name">(.*?)</a>', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:
@@ -37,7 +41,7 @@ class NameGetter:
 	def xiongmao(self):
 		try:
 			url = 'http://www.panda.tv/' + self.room
-			r = requests.get(url).text
+			r = self.s.get(url, proxies=random.choice(PROXIES)).text
 			pattern = re.compile(r'<title>(.*?)</title>', re.S)
 			self.name = re.findall(pattern, r)[0][:-16]
 		except:
@@ -47,7 +51,7 @@ class NameGetter:
 	def longzhu(self):
 		try:
 			url = 'http://star.longzhu.com/' + self.room
-			r = requests.get(url).text
+			r = self.s.get(url, proxies=random.choice(PROXIES)).text
 			pattern = re.compile(r'class="header-info-name">(.*?)</span>', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:
@@ -57,7 +61,7 @@ class NameGetter:
 	def quanmin(self):
 		try:
 			url = 'http://www.quanmin.tv/json/rooms/' + self.room + '/noinfo4.json'
-			r = requests.get(url).json()
+			r = self.s.get(url, proxies=random.choice(PROXIES)).json()
 			self.name = r.get("nick")
 		except:
 			namelogger.exception(u'无法连接' + url)
@@ -66,7 +70,7 @@ class NameGetter:
 	def huya(self):
 		try:
 			url = 'http://www.huya.com/' + self.room
-			r = requests.get(url).text
+			r = self.s.get(url, proxies=random.choice(PROXIES)).text
 			pattern = re.compile(r' <span class="host-name" title="(.*?)">', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:
@@ -76,7 +80,7 @@ class NameGetter:
 	def zhanqi(self):
 		try:
 			url = 'https://www.zhanqi.tv/' + self.room
-			r = requests.get(url).text
+			r = self.s.get(url, proxies=random.choice(PROXIES)).text
 			pattern = re.compile(r'<p class="name dv">(.*?)</p>', re.S)
 			self.name = re.findall(pattern, r)[0]
 		except:

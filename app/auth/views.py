@@ -10,9 +10,38 @@ from ..email import send_email
 from .forms import LoginForm, RegistrationForm, ChangePasswordForm,\
     PasswordResetRequestForm, PasswordResetForm, ChangeEmailForm
 
+@auth.before_app_request
+def before_request():
+    if  current_user.is_authenticated\
+        and not current_user.confirmed \
+        and request.endpoint[:5] != 'auth.' \
+        and request.endpoint != 'static':
+            return redirect(url_for('auth.unconfirmed'))
+
+@auth.route('/unconfirmed')
+@login_required
+def unconfirmed():
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    return render_template('auth/unconfirmed.html')
+
+@auth.route('/confirm/<token>')
+@login_required
+def confirm(token):
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+    if current_user.confirm(token):
+        flash(u'你的帐户已确认.')
+    else:
+        flash(u'确认链接已失效.')
+    return redirect(url_for('main.index'))
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.verify_password(form.password.data):
@@ -39,7 +68,7 @@ def register():
                     password=form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash(u'注册成功，请登录')
+        flash(u'一封确认邮件已发送至你邮箱。')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
 
