@@ -8,6 +8,7 @@ class NameGetter:
 
 	s = requests.session()
 	s.headers['User-Agent'] = random.choice(USER_AGENTS)
+	s.keep_alive = False
 
 	def __init__(self, tv, room):
 		self.tv = tv
