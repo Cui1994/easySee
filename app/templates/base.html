@@ -1,6 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Flasky{% endblock %}
+{% block title %}直播通{% endblock %}
 
 {% block head %}
 {{ super() }}
@@ -21,10 +21,10 @@
             <a class="navbar-brand" href="{{ url_for('main.index') }}"><span class="glyphicon glyphicon-expand"></span>直播通</a>
         </div>
         <div class="navbar-collapse collapse">
+            {% if current_user.is_authenticated %}
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('main.hot') }}"><span class="glyphicon glyphicon-fire"></span>热门</a></li>
             </ul>
-            {% if current_user.is_authenticated %}
             <form class="navbar-form navbar-left" action="{{ url_for('main.search') }}" method="post" role="search">
                 <div class="form-group">
                     {{ g.search_form.hidden_tag() }}
