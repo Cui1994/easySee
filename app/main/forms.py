@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from ..models import Anchor, User, TV
@@ -17,3 +17,7 @@ class AddAnchorForm(Form):
 
 class SearchForm(Form):
 	search = StringField(u'', validators=[Required()])
+
+class MessageForm(Form):
+	message = TextAreaField(u'反馈信息', validators=[Required()])
+	submit = SubmitField(u'提交')

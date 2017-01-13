@@ -88,27 +88,13 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
-    def follow(self, anchor):
-        if not self.is_following(anchor):
-            self.anchors.append(anchor)
-            db.session.add(self)
-            db.session.commit()
-
-    def is_following(self, anchor):
-        return self.anchors.filter_by(id=anchor.id).first() is not None
-
-    def unfollow(self, anchor):
-        self.anchors.remove(anchor)
-        db.session.add(self)
-        db.session.commit()
-
     def change_remind(self):
         self.is_remind = not self.is_remind
         db.session.add(self)
         db.session.commit()
 
     def is_limit(self):
-        return self.anchors.count() <= current_app.config['EASYSEE_ANCHOR_LIMIT']
+        return self.anchors.count() < current_app.config['EASYSEE_ANCHOR_LIMIT']
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -177,5 +163,13 @@ class Anchor(db.Model):
             anchor.users_count = anchor.users.count()
             db.session.add(anchor)
             db.session.commit()
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    user_name = db.Column(db.String(64), index=True)
+    user_email = db.Column(db.String(64), index=True)
 
 

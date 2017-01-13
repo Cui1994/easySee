@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, redirect, request, url_for, flash
+from flask import render_template, redirect, request, url_for, flash, current_app
 from flask_login import login_user, logout_user, login_required, \
     current_user
 from . import auth
@@ -32,6 +32,7 @@ def confirm(token):
         return redirect(url_for('main.index'))
     if current_user.confirm(token):
         flash(u'你的帐户已确认.')
+        send_email(current_app.config['EASYSEE_ADMIN'], 'New User Comming', 'auth/email/new_user', user=current_user)
     else:
         flash(u'确认链接已失效.')
     return redirect(url_for('main.index'))
@@ -68,6 +69,9 @@ def register():
                     password=form.password.data)
         db.session.add(user)
         db.session.commit()
+        token = user.generate_confirmation_token()
+        send_email(user.email, u'帐号确认邮件',
+                   'auth/email/confirm', user=user, token=token)
         flash(u'一封确认邮件已发送至你邮箱。')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)

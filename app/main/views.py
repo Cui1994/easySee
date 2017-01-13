@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 
-from flask import render_template, url_for, flash, redirect, request, g
+from flask import render_template, url_for, flash, redirect, request, g, current_app
 from flask_login import login_required, current_user
 from . import main
-from .forms import AddAnchorForm, SearchForm
+from .forms import AddAnchorForm, SearchForm, MessageForm
 from ..getName import NameGetter
 from ..LiveChecker import LiveChecker
-from ..models import User, TV, Anchor
+from ..models import User, TV, Anchor, Message
 from .. import db
 
 @main.before_app_request
@@ -91,8 +91,8 @@ def change_remind():
 def hot():
 	page = request.args.get('page', 1, type=int)
 	pagination = Anchor.query.order_by(Anchor.users_count).paginate(
-		page, per_page=15, error_out=False)
-	anchors = pagination.items
+		page, per_page=current_app.config['EASYSEE_PER_PAGE'], error_out=False)
+	anchors = pagination.items[::-1] 
 	return render_template('hot.html', anchors=anchors, pagination=pagination)
 
 @main.route('/search', methods = ['POST'])
@@ -105,3 +105,18 @@ def search():
 def search_results(query):
     anchors = Anchor.query.filter(Anchor.name.like('%'+query+'%')).all()
     return render_template('search_results.html', anchors=anchors)
+
+@main.route('/leave-message', methods=['GET', 'POST'])
+@login_required
+def leave_message():
+	form = MessageForm()
+	if form.validate_on_submit():
+		body = form.message.data
+		user_name = current_user.username 
+		user_email = current_user.email 
+		message = Message(body=body, user_name=user_name, user_email=user_email)
+		db.session.add(message)
+		db.session.commit()
+		flash(u'已经受到您的反馈，我们将在几个工作日内作出回复')
+		return redirect(url_for('.index'))
+	return render_template('leave_message.html', form=form)

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}直播通 - 用户反馈{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>联系我们</h1>
+    <h4>留下您的意见，问题或者反馈，我们将及时作出答复</h4>
+</div>
+<div class="col-md-8">
+    {{ wtf.quick_form(form) }}
+    <br>
+</div>
+{% endblock %}
