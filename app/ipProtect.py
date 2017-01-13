@@ -16,11 +16,18 @@ USER_AGENTS = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
+
 PROXIES = [
-    {'ip_port': '111.11.228.75:80', 'user_pass': ''},
-    {'ip_port': '120.198.243.22:80', 'user_pass': ''},
-    {'ip_port': '111.8.60.9:8123', 'user_pass': ''},
-    {'ip_port': '101.71.27.120:80', 'user_pass': ''},
-    {'ip_port': '122.96.59.104:80', 'user_pass': ''},
-    {'ip_port': '122.224.249.122:8088', 'user_pass': ''},
+    {'ip_port': '61.141.152.181:9999'},
+    {'ip_port': '58.20.132.29:8088'},
+    {'ip_port': '113.76.215.242:9999'},
+    {'ip_port': '19.132.147.247:9797'},
+    {'ip_port': '175.6.10.154:8088'},
+    {'ip_port': '119.187.138.209:9000'},
+    {'ip_port': '111.11.228.75:80'},
+    {'ip_port': '120.198.243.22:80'},
+    {'ip_port': '111.8.60.9:8123'},
+    {'ip_port': '101.71.27.120:80'},
+    {'ip_port': '122.96.59.104:80'},
+    {'ip_port': '122.224.249.122:8088'},
     ]

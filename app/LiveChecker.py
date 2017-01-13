@@ -11,6 +11,7 @@ class LiveChecker:
 	s.headers['User-Agent'] = random.choice(USER_AGENTS)
 
 	def __init__(self, anchor):
+		self.is_live = anchor.is_live
 		if anchor.tv.name == u'斗鱼':
 			self.douyu(anchor)
 		elif anchor.tv.name == u'熊猫':
@@ -26,9 +27,15 @@ class LiveChecker:
 
 	def douyu(self, anchor):
 		try:
-			url = 'https://www.douyu.com/column_rank_list/getRoomLiveStatusAndCategoryByRoomID?room_id=' + anchor.room
+			room_id = anchor.room
+			if not room_id.isdigit():
+				url = 'https://www.douyu.com/'+ room_id
+				r = self.s.get(url).text
+				pattern = re.compile(r'ROOM = {"room_id":(.*?),', re.S)
+				room_id = re.findall(pattern, r)[0]
+			url = 'https://www.douyu.com/column_rank_list/getRoomLiveStatusAndCategoryByRoomID?room_id=' + room_id
 			response = self.s.get(url, proxies=random.choice(PROXIES)).json()
-			is_live = response.get("data").get(anchor.room).get("is_live")
+			is_live = response.get("data").get(room_id).get("is_live")
 			self.is_live = is_live
 		except:
 			livelogger.exception(u'无法连接' + url)

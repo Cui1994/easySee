@@ -10,20 +10,22 @@ class Config:
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	EASYSEE_MAIL_SUBJECT_PREFIX = '[EasySee]'
 	EASYSEE_MAIL_SENDER = 'easySee <cuijt1994@163.com>'
-	EASYSEE_ADMIN = '<269584357@qq.com>'
+	EASYSEE_ADMIN = '269584357@qq.com'
 	EASYSEE_ANCHOR_LIMIT = 12
 	EASYSEE_PER_PAGE = 15
+	BOOTSTRAP_SERVE_LOCAL = True
 
 	#celery config
 	CELERY_BROKER_URL = 'redis://localhost:6379/0'
 	CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+	CELERY_TASK_SERIALIZER = 'json'
 	CELERY_IMPORTS = ['app.task']
 	CELERYBEAT_SCHEDULE = {
         'every-5-minute': {
             'task': 'circle_task',
             #'schedule': crontab(minute='*/1'),
             # 'args': (1,2),
-            'schedule': timedelta(seconds=30)
+            'schedule': timedelta(seconds=300)
         	},
     	}
 

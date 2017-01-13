@@ -21,3 +21,36 @@ Traceback (most recent call last):
   File "/home/jack/easyenv/local/lib/python2.7/site-packages/requests/adapters.py", line 473, in send
     raise ConnectionError(err, request=request)
 ConnectionError: ('Connection aborted.', error(104, 'Connection reset by peer'))
+[2017-01-13 18:23:54,652][app.LiveChecker][ERROR] 无法连接http://star.longzhu.com/dongzhu
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/LiveChecker.py", line 51, in longzhu
+    r1 = self.s.get(url, proxies=random.choice(PROXIES)).text
+  File "/home/jack/easyenv/local/lib/python2.7/site-packages/requests/sessions.py", line 501, in get
+    return self.request('GET', url, **kwargs)
+  File "/home/jack/easyenv/local/lib/python2.7/site-packages/requests/sessions.py", line 488, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/jack/easyenv/local/lib/python2.7/site-packages/requests/sessions.py", line 609, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/jack/easyenv/local/lib/python2.7/site-packages/requests/adapters.py", line 473, in send
+    raise ConnectionError(err, request=request)
+ConnectionError: ('Connection aborted.', BadStatusLine("''",))
+[2017-01-13 19:11:30,799][app.LiveChecker][ERROR] 无法连接https://www.douyu.com/dushuren
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/LiveChecker.py", line 33, in douyu
+    r = s.get(url).text
+NameError: global name 's' is not defined
+[2017-01-13 19:16:27,107][app.LiveChecker][ERROR] 无法连接https://www.douyu.com/column_rank_list/getRoomLiveStatusAndCategoryByRoomID?room_id=dushuren
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/LiveChecker.py", line 31, in douyu
+    if not room_id.isdigit():
+AttributeError: 'list' object has no attribute 'get'
+[2017-01-13 19:21:27,415][app.LiveChecker][ERROR] 无法连接https://www.douyu.com/column_rank_list/getRoomLiveStatusAndCategoryByRoomID?room_id=dushuren
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/LiveChecker.py", line 31, in douyu
+    if not room_id.isdigit():
+AttributeError: 'list' object has no attribute 'get'
+[2017-01-13 19:26:37,676][app.LiveChecker][ERROR] 无法连接https://www.douyu.com/column_rank_list/getRoomLiveStatusAndCategoryByRoomID?room_id=dushuren
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/LiveChecker.py", line 31, in douyu
+    if not room_id.isdigit():
+AttributeError: 'list' object has no attribute 'get'
