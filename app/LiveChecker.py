@@ -30,7 +30,7 @@ class LiveChecker:
 			room_id = anchor.room
 			if not room_id.isdigit():
 				url = 'https://www.douyu.com/'+ room_id
-				r = self.s.get(url).text
+				r = self.s.get(url, proxies=random.choice(PROXIES)).text
 				pattern = re.compile(r'ROOM = {"room_id":(.*?),', re.S)
 				room_id = re.findall(pattern, r)[0]
 			url = 'https://www.douyu.com/column_rank_list/getRoomLiveStatusAndCategoryByRoomID?room_id=' + room_id

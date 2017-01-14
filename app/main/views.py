@@ -6,6 +6,7 @@ from . import main
 from .forms import AddAnchorForm, SearchForm, MessageForm
 from ..getName import NameGetter
 from ..LiveChecker import LiveChecker
+from ..Search import Search
 from ..models import User, TV, Anchor, Message
 from .. import db
 
@@ -71,6 +72,14 @@ def follow(name):
 		flash(u'您的关注的主播数量已达上限')
 	return redirect(url_for('.hot'))
 
+@main.route('/add_new/<tv>/<room>/<name>')
+def add_new(tv, room, name):
+	anchor = Anchor(tv=TV.query.filter_by(name=tv).first(), name=name, room=room)
+	anchor.is_live = LiveChecker(anchor).is_live
+	anchor.add_user(current_user)
+	flash(u'添加成功')
+	return redirect(url_for('.index'))
+
 @main.route('/set-remind')
 @login_required
 def set_remind():
@@ -104,7 +113,10 @@ def search():
 @main.route('/search-results/<query>')
 def search_results(query):
     anchors = Anchor.query.filter(Anchor.name.like('%'+query+'%')).all()
-    return render_template('search_results.html', anchors=anchors)
+    anchors_web = []
+    if not anchors:
+    	anchors_web = Search(query).anchors
+    return render_template('search_results.html', anchors=anchors, anchors_web=anchors_web)
 
 @main.route('/leave-message', methods=['GET', 'POST'])
 @login_required

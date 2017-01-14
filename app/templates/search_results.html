@@ -8,8 +8,20 @@
 		<h3>搜索结果：</h3>
 		{% if not anchors %}
 		<hr />
-		<h5>数据库中没有搜索到您要找的主播</h5>
-		<h5>可能还没有人添加该主播，快去主页添加一个吧。</h5>
+		<h5>数据库中没有搜索到您要找的主播，以下是网络搜索结果</h5>
+		<h5>如果没有您要找的主播，请到主页手动添加。</h5>
+		<table class="table table-hover">
+			<tbody>	
+				{% for anchor in anchors_web %}
+					<tr class="text-center">
+					    <td>{{ anchor.tv }}</td>
+					    <td>{{ anchor.name }}</td>
+					    <td><a href="{{ anchor.url }}" target="_black" class="btn btn-info btn-xs active" role="button">到ta的直播间>>></a></td>
+						<td><a href="{{ url_for('main.add_new', tv=anchor.tv, room=anchor.room, name=anchor.name) }}" class="btn btn-default btn-xs active" role="button"><span class="glyphicon glyphicon-star"></span>关注</a><td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 		{% else %}
 		<table class="table table-hover">
 			<tbody>	

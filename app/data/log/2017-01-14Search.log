@@ -1,0 +1,20 @@
+[2017-01-14 20:01:14,986][app.Search][ERROR] 无法连接https://www.douyu.com/search?kw=pdd
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/Search.py", line 35, in search_douyu
+    anchor.tv = TV.query.get(name=u'斗鱼').first()
+TypeError: get() got an unexpected keyword argument 'name'
+[2017-01-14 20:01:15,194][app.Search][ERROR] 无法连接http://www.panda.tv/ajax_search?nickname=pdd&order_cond=fans
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/Search.py", line 54, in search_xiongmao
+    anchor.tv = TV.query.get(name=u'熊猫').first()
+TypeError: get() got an unexpected keyword argument 'name'
+[2017-01-14 20:01:19,531][app.Search][ERROR] 无法连接https://www.douyu.com/search?kw=pdd
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/Search.py", line 35, in search_douyu
+    anchor.tv = TV.query.get(name=u'斗鱼').first()
+TypeError: get() got an unexpected keyword argument 'name'
+[2017-01-14 20:01:19,632][app.Search][ERROR] 无法连接http://www.panda.tv/ajax_search?nickname=pdd&order_cond=fans
+Traceback (most recent call last):
+  File "/home/jack/pythoncoding/easySee/app/Search.py", line 54, in search_xiongmao
+    anchor.tv = TV.query.get(name=u'熊猫').first()
+TypeError: get() got an unexpected keyword argument 'name'

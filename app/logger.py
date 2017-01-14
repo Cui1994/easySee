@@ -22,3 +22,4 @@ class my_logger:
 
 namelogger = my_logger('getName').logger
 livelogger = my_logger('LiveChecker').logger
+searchlogger = my_logger('Search').logger

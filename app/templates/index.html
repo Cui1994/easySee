@@ -33,14 +33,14 @@
                         </tbody>
                     </table>
                 {% else %}
-                    <p>关注列表空空如也，快添加主播或去热门看看吧！</p>
+                    <p>关注列表空空如也，快搜索或添加主播吧！</p>
                 {% endif %}
             </div>
         </div>
         <div class="row">
             <div class="col-md-10">
                 {% if current_user.is_limit() %}
-                <a href="{{ url_for('main.add_anchor') }}" class="btn btn-primary btn-lg active btn-sm" role="button">添加主播</a>
+                <a href="{{ url_for('main.add_anchor') }}" class="btn btn-primary btn-lg active btn-sm" role="button">手动添加主播</a>
                 {% else %}
                 <a href="{{ url_for('main.add_anchor') }}" class="btn btn-primary btn-lg disabled btn-sm" role="button">添加主播</a>
                 {% endif %}

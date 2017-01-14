@@ -108,7 +108,7 @@ def load_user(user_id):
 class TV(db.Model):
     __tablename__ = 'tvs'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True)
+    name = db.Column(db.String(64), unique=True, index=True)
     base_url = db.Column(db.String(128))
 
     anchors = db.relationship('Anchor', backref='tv')
