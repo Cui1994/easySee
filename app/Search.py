@@ -10,11 +10,12 @@ class AnchorSearch:
 	room = ''
 	url = ''
 
-
 class Search:
+
+	requests.adapters.DEFAULT_RETRIES = 5
 	s = requests.session()
 	s.headers['User-Agent'] = random.choice(USER_AGENTS)
-
+	s.keep_alive = False
 
 	def __init__(self, query):
 		self.anchors = []
@@ -76,16 +77,12 @@ class Search:
 			r = self.s.get(url, proxies=random.choice(PROXIES)).json()
 			items = r.get("items")
 			if items != []:
-				for item in items:
-					if item.get("live").get("hrefRoomId") != 0:
-						anchor = AnchorSearch()
-						anchor.name = item.get("name")
-						anchor.room = item.get("live").get("hrefTarget")
-						anchor.tv = u'龙珠'
-						anchor.url = 'http://star.longzhu.com/' + anchor.room
-						resc.append(anchor)
-			if len(resc)>2:
-				resc = resc[:2]
+				anchor = AnchorSearch()
+				anchor.name = items[0].get("name")
+				anchor.room = items[0].get("domain")
+				anchor.tv = u'龙珠'
+				anchor.url = 'http://star.longzhu.com/' + anchor.room
+				resc.append(anchor)
 			self.anchors += resc
 		except:
 			searchlogger.exception(u'无法连接' + url)

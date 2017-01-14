@@ -6,9 +6,10 @@ from ipProtect import USER_AGENTS, PROXIES
 
 class LiveChecker:
 
-	is_live = False
+	requests.adapters.DEFAULT_RETRIES = 5
 	s = requests.session()
 	s.headers['User-Agent'] = random.choice(USER_AGENTS)
+	s.keep_alive = False
 
 	def __init__(self, anchor):
 		self.is_live = anchor.is_live
