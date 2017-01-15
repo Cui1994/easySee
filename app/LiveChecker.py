@@ -49,6 +49,8 @@ class LiveChecker:
 			item = re.findall(pattern, r)
 			if item[0] == '2':
 				self.is_live = True
+			else:
+				self.is_live = False
 		except:
 			livelogger.exception(u'无法连接' + url)
 
@@ -58,6 +60,8 @@ class LiveChecker:
 			r = self.s.get(url, proxies=random.choice(PROXIES)).json().get("items")[0]
 			if r.get("live").get("isLive"):
 				self.is_live = True
+			else:
+				self.is_live = False
 		except:
 			livelogger.exception(u'无法连接' + url)
 
@@ -80,6 +84,8 @@ class LiveChecker:
 			is_not_live = re.findall(pattern2, r)
 			if not (is_replay == ['1'] or is_not_live == ['1']):
 				self.is_live = True
+			else:
+				self.is_live = False
 		except:
 			livelogger.exception(u'无法连接' + url)
 
@@ -93,5 +99,7 @@ class LiveChecker:
 			r2 = self.s.get(url_api+str(roomid), proxies=random.choice(PROXIES)).json()
 			if not r2.get("data").get("status") == '0':
 				self.is_live = True
+			else:
+				self.is_live = False
 		except:
 			livelogger.exception(u'无法连接' + url)
