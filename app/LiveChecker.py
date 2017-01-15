@@ -54,13 +54,9 @@ class LiveChecker:
 
 	def longzhu(self, anchor):
 		try:
-			url = 'http://star.longzhu.com/' + anchor.room
-			api_url = 'http://roomapicdn.plu.cn/room/roomstatus?roomid='
-			r1 = self.s.get(url, proxies=random.choice(PROXIES)).text
-			pattern = re.compile(r'"RoomId":(.*?),"Domain"', re.S)
-			roomid = re.findall(pattern, r1)[0]
-			r2 = self.s.get(api_url+str(roomid), proxies=random.choice(PROXIES)).json()
-			if r2.get("Broadcast"):
+			url = 'http://searchapi.plu.cn/api/search/room?title=' + anchor.room
+			r = self.s.get(url, proxies=random.choice(PROXIES)).json().get("items")[0]
+			if r.get("live").get("isLive"):
 				self.is_live = True
 		except:
 			livelogger.exception(u'无法连接' + url)
