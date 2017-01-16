@@ -44,7 +44,8 @@ class NameGetter:
 			url = 'http://www.panda.tv/' + self.room
 			r = self.s.get(url, proxies=random.choice(PROXIES)).text
 			pattern = re.compile(r'<title>(.*?)</title>', re.S)
-			self.name = re.findall(pattern, r)[0][:-16]
+			if re.findall(pattern, r)[0] != u'çç«ç´æ­_æ³å¨±ä¹ç´æ­å¹³å°':
+				self.name = re.findall(pattern, r)[0][:-16]
 		except:
 			namelogger.exception(u'无法连接' + url)
 			return None

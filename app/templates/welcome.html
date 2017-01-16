@@ -2,6 +2,20 @@
 
 {% block title %}直播通 - 欢迎{% endblock %}
 
+{% block head %}
+{{ super() }}
+<style type="text/css">
+  footer{
+  position: absolute;
+  bottom: 0;
+  width: auto;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  <!--background-color: #f5f5f5;-->
+  }
+</style>
+{% endblock %}
+
 {% block page_content %}
 <div class="page-header">
 	<h1>欢迎来到直播通</h1>
@@ -16,4 +30,21 @@
   <p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">  登录  </a>
 <a class="btn btn-default btn-lg" href="{{ url_for('auth.register') }}" role="button">  注册  </a></p>
 </div>
+
+<footer class="footer">
+
+        <p class="text-muted">
+            <span id="busuanzi_container_site_pv">
+                <strong>本站总访问量</strong><span id="busuanzi_value_site_pv"></span>次
+            </span>
+        </p>
+
+</footer>
+
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 {% endblock %}
