@@ -74,14 +74,17 @@ def follow(name):
 
 @main.route('/add_new/<tv>/<room>/<name>')
 def add_new(tv, room, name):
-	anchor = Anchor.query.filter_by(name=name).first()
-	if anchor and anchor.tv.name == tv:
-		pass
+	if current_user.is_limit():
+		anchor = Anchor.query.filter_by(name=name).first()
+		if anchor and anchor.tv.name == tv:
+			pass
+		else:
+			anchor = Anchor(tv=TV.query.filter_by(name=tv).first(), name=name, room=room)
+			anchor.is_live = LiveChecker(anchor).is_live
+		anchor.add_user(current_user)
+		flash(u'添加成功')
 	else:
-		anchor = Anchor(tv=TV.query.filter_by(name=tv).first(), name=name, room=room)
-		anchor.is_live = LiveChecker(anchor).is_live
-	anchor.add_user(current_user)
-	flash(u'添加成功')
+		flash(u'您的关注的主播数量已达上限')
 	return redirect(url_for('.index'))
 
 @main.route('/set-remind')
