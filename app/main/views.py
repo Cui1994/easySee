@@ -106,7 +106,7 @@ def change_remind():
 @login_required
 def hot():
 	page = request.args.get('page', 1, type=int)
-	pagination = Anchor.query.order_by(Anchor.users_count.desc()).paginate(
+	pagination = Anchor.query.order_by(Anchor.users_count.desc(), Anchor.name).paginate(
 		page, per_page=current_app.config['EASYSEE_PER_PAGE'], error_out=False)
 	anchors = pagination.items
 	return render_template('hot.html', anchors=anchors, pagination=pagination)
