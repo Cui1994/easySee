@@ -9,7 +9,7 @@ class my_logger:
         self.logger = logging.getLogger('app.'+loggername)
         self.logger.setLevel(logging.DEBUG)
 
-        fh = logging.FileHandler('./app/data/log/' + time.strftime("%Y-%m-%d", time.localtime()) +loggername+'.log')
+        fh = logging.FileHandler('./app/data/log/' + loggername + '.log')
         fh.setLevel(logging.DEBUG)
         ch = logging.StreamHandler()
         ch.setLevel(logging.DEBUG)
