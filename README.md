@@ -1,6 +1,6 @@
 # 直播通 easySee
 一款跨平台主播搜索关注的web应用
-+ 详情参见博客 [关于直播通](https://cui1994.github.io/2017/01/15/%E5%85%B3%E4%BA%8E%E7%9B%B4%E6%92%AD%E9%80%9A/)
++ 详情参见博客 [关于直播通](https://cui1994.github.io/posts/zhibotong.html)
 
 ## 现有功能：
 + 平台+房间号主播关注
@@ -12,5 +12,4 @@
 + 2017.1.14 部署上线，网址为http://easyzhibo.cn
 + 2017.1.14 更新网络主播搜索功能
 
-## Bug修复历程
-+ 记录在这里[直播通Bug修复记录](https://cui1994.github.io/2017/01/15/%E7%9B%B4%E6%92%AD%E9%80%9ABug%E4%BF%AE%E5%A4%8D%E8%AE%B0%E5%BD%95/)
+
